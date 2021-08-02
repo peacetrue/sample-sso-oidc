@@ -1,0 +1,81 @@
+= {idp}
+
+本文详细记录{idp}的实现过程。
+
+== 确定模块名称
+
+sample-sso-oidc-idp。
+
+== 创建模块
+
+https://github.com/peacetrue/sample-sso-oidc/tree/master/sample-sso-oidc-idp[sample-sso-oidc-idp^]。
+
+== 配置模块依赖
+
+.build.gradle
+[{source}%nowrap,groovy]
+----
+include::{path}/build.gradle[tags=spring]
+include::{path-idp}/build.gradle[tags=authorization-server]
+----
+
+== 创建启动类
+
+.IdpOidcApplication
+[{source},java]
+----
+include::{path-idp-main-package}/IdpOidcApplication.java[tags=class]
+----
+
+== 创建配置文件
+
+.application.yml
+[{source},yml]
+----
+include::{path-idp-main}/resources/application.yml[]
+----
+
+== 配置模块功能
+
+=== 创建配置类
+
+.IdpOidcConfiguration
+[{source},java]
+----
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;class-end]
+----
+
+=== 引入配置
+
+.IdpOidcConfiguration
+[{source},java]
+----
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=import;class-start;class-end]
+----
+<.> 引入 spring-authorization-server 提供的实现认证服务端功能的配置
+
+=== 配置客户端
+
+服务端只会受理自己认识的客户端，所以需要事先在服务端中配置客户端。
+
+.IdpOidcConfiguration
+[{source},java]
+----
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;registeredClient;class-end]
+----
+
+NOTE: 目前直接在配置类中初始化，后期可以改成通过界面操作
+
+=== 配置授权码端点
+
+客户端请求授权码时，请求会发送到服务端的认证端点。认证端点的实现类为 `OAuth2AuthorizationEndpointFilter`，默认处理 URL 为 */oauth2/authorize* 的请求。
+
+* `OAuth2AuthorizationCodeRequestAuthenticationToken`
+* `OAuth2AuthorizationEndpointFilter`
+* `OAuth2AuthorizationCodeRequestAuthenticationProvider`
+
+
+
+
+
+
