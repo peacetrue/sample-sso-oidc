@@ -1,9 +1,20 @@
-name: peacetrue-template-gradle
-title: gradle 模板项目
+name: sample-sso-oidc
+title: 基于 OpenID Connect 实现的单点登录示例项目
 version: master
 asciidoc:
   attributes:
-    numbered: ''
+    numbered: '@'
+    allow-uri-read: true
+#    safe: unsafe
+    idp: 认证服务端
+    sp: 认证客户端
+    path: ../../../../..
+    path-idp: ../../../../../sample-sso-oidc-idp
+    path-idp-main: ../../../../../sample-sso-oidc-idp/src/main
+    path-idp-test: ../../../../../sample-sso-oidc-idp/src/test
+    path-idp-main-package: ../../../../../sample-sso-oidc-idp/src/main/java/com/github/peacetrue/sample/oss/oidc
+    path-idp-test-package: ../../../../../sample-sso-oidc-idp/src/main/java/com/github/peacetrue/sample/oss/oidc
+    source: source%nowrap@
 start_page: ROOT:index.adoc
 nav:
   - modules/ROOT/nav.adoc

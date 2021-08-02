@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<div>
+    <span>当前用户：</span>
+    <span th:text="${user}"></span>
+</div>
+<a th:href="@{/logout}">退出</a>
+</body>
+</html>

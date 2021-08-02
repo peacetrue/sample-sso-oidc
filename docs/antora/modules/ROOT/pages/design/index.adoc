@@ -1,0 +1,129 @@
+= 设计
+
+本文简单记录单点登录的实现思路。
+
+== 项目规划
+
+为了验证单点登录效果，需要一个认证服务端（以下简称 IDP）和多个footnote:[此处使用 2 个]认证客户端（以下简称 SP），具体规划如下：
+
+[cols=7,width="100%",options="header"]
+|===
+|应用 |端口 |角色 |实现模块 |主页地址 |会话时长 |备注
+
+|oidc-idp
+|9301
+|认证服务端
+|sample-sso-oidc-idp
+|http://127.0.0.1:9300/oidc-idp
+|30 分钟
+|登录账号：admin/123456
+
+|oidc-sp-1
+|9302
+|认证客户端
+|sample-sso-oidc-sp
+|http://127.0.0.1:9301/oidc-sp-1
+|30 分钟
+|客户端凭据：oidc-sp-1/secret
+
+|oidc-sp-2
+|9303
+|认证客户端
+|sample-sso-oidc-sp
+|http://127.0.0.1:9302/oidc-sp-2
+|30 分钟
+|客户端凭据：oidc-sp-2/secret
+|===
+
+NOTE: 不推荐使用 localhost，参考 https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01#section-9.7.1[draft-ietf-oauth-v2-1-01^]，可以使用 127.0.0.1 替代
+
+其中涉及 2 个小问题：
+
+. 一套源码如何启动多个应用
+. 本地测试如何避免会话冲突
+
+可以在具体实现中找到答案。
+
+== 认证流程
+
+.授权码认证流程
+[plantuml,sp-login-flow,png]
+....
+autonumber
+skinparam responseMessageBelowArrow true
+用户 -> 浏览器: 访问 SP 主页
+浏览器 -> SP: 请求 SP 主页
+SP -> SP: 检查当前用户状态
+    alt SP 未登录
+        浏览器 <- SP: 重定向到 IDP
+        浏览器 -> IDP: 请求核验用户身份
+        IDP -> IDP: 检查当前用户状态
+        alt IDP 未登录
+            浏览器 <- IDP: 重定向到登录页
+            用户 -> 浏览器: 提交用户信息
+            浏览器 -> IDP: 请求执行登录
+            IDP -> IDP: 登录成功
+        end
+        IDP -> IDP: 预备 SP 登录环境
+        浏览器 <- IDP: 重定向到 SP
+        浏览器 -> SP: 请求执行登录
+        SP -> SP: 登录成功
+    end
+浏览器 <- SP: 重定向到 SP 主页
+用户 <- 浏览器: 呈现 SP 主页
+....
+
+TIP: 关于同步保持 IDP 和 SP 会话状态的讨论可以查阅 xref:design/session.adoc[]
+
+== 请求端点
+
+[cols=3,width="100%",options="header"]
+|===
+|角色 |端点 |地址
+
+|客户端
+|Column 2, row 1
+|Column 3, row 1
+
+|Column 1, row 2
+|Column 2, row 2
+|Column 3, row 2
+
+|Column 1, row 3
+|Column 2, row 3
+|Column 3, row 3
+
+|Column 1, row 4
+|Column 2, row 4
+|Column 3, row 4
+
+|Column 1, row 5
+|Column 2, row 5
+|Column 3, row 5
+|===
+
+=== IDP
+
+//include::http://auth-server:9000/.well-known/openid-configuration?prettify[]
+..well-known/openid-configuration
+[{source},json]
+----
+include::example$openid-configuration.json[]
+----
+
+== 如何实现认证服务端
+
+使用 https://github.com/spring-projects-experimental/spring-authorization-server[spring-authorization-server^] 组件。
+
+== 如何实现认证客户端
+
+使用 https://docs.spring.io/spring-security/site/docs/5.4.7/reference/html5/#oauth2client[spring-boot-starter-oauth2-client^] 组件footnote:[若链接因版本升级而失效，可查看 https://spring.io/projects/spring-security#learn[spring-security\]]。
+
+== 选择构建工具
+
+Gradle-7.0。
+
+== 确定项目名
+
+sample-sso-oidc。
+

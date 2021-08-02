@@ -1,38 +1,32 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url 'https://repo.spring.io/plugins-release' }
-        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
     }
 
     dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.3.3.RELEASE"
-        classpath "gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:2.5.0"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.4.5")
     }
 }
 
-allprojects { project ->
+subprojects { project ->
 
-    group "com.github.peacetrue.template"
+    group "com.github.peacetrue.sample"
     version "1.0.0-SNAPSHOT"
-    description "gradle模板"
+    description "基于 OpenID Connect 实现的单点登录示例项目"
 
     apply plugin: "java"
     apply plugin: "java-library"
 
     repositories {
         mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://repo.spring.io/plugins-release" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
-    apply plugin: "io.spring.dependency-management"
     apply plugin: 'org.springframework.boot'
-    apply plugin: "com.google.cloud.tools.jib"
+    apply plugin: "io.spring.dependency-management"
     dependencyManagement {
         imports {
             mavenBom "com.github.peacetrue:peacetrue-dependencies:2.0.0-SNAPSHOT"
@@ -43,6 +37,23 @@ allprojects { project ->
         compileOnly "org.projectlombok:lombok"
         annotationProcessor "org.projectlombok:lombok"
         implementation "com.google.code.findbugs:jsr305"
+        // @formatter:off 引入时，保持与子模块相同的缩进
+    //tag::spring[]
+    //Web 应用的基础依赖
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //安全相关的基础依赖
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //end::spring[]
+    // @formatter:on
+
+//        implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+//        implementation 'org.springframework.boot:spring-boot-starter-web'
+//        implementation 'org.springframework.security:spring-security-config'
+//        implementation 'org.springframework.security:spring-security-web'
+//        implementation 'org.springframework.security:spring-security-oauth2-core'
+//        implementation 'org.springframework.security:spring-security-oauth2-jose'
+//        implementation 'com.nimbusds:nimbus-jose-jwt'
+//        implementation 'com.fasterxml.jackson.core:jackson-databind'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -65,31 +76,4 @@ allprojects { project ->
     test {
         useJUnitPlatform()
     }
-
-    jib {
-        from {
-            //使用本地镜像，依赖本地 docker
-            image = "docker://openjdk:11.0.8-jre"
-            //使用仓库镜像，速度慢
-            //image = "registry://docker.io/library/openjdk:11.0.8-jre"
-        }
-
-        to {
-            //上传到阿里云镜像仓库
-            image = "registry.cn-beijing.aliyuncs.com/peacetrue/$name"
-            //image = "registry-vpc.cn-beijing.aliyuncs.com/peacetrue/$name"
-            tags = [/*version,*/ 'latest']
-        }
-
-        container {
-            //环境变量 docker 启动时指定
-            //environment = ['SPRING_PROFILES_ACTIVE': 'prod']
-            jvmFlags = ['-Xmx256m', '-Xms128m', '-Xmn96m', '-Xss256k']
-            //CMD [jib.container.args]
-            //args = ['--spring.profiles.active=prod']
-            creationTime = 'USE_CURRENT_TIMESTAMP'
-        }
-
-    }
-
 }

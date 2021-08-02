@@ -1,0 +1,69 @@
+# 预定义变量
+serial-number:
+server.host:
+
+spring.profiles.include: client1,dev
+
+#公共配置
+spring:
+  application:
+    name: oidc-sp-${serial-number}
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          oidc-sp:
+            provider: oidc-idp
+            client-id: oidc-sp-${serial-number}
+            client-name: oidc-sp-${serial-number}
+            client-secret: secret${serial-number}
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://${server.host}:${server.port}${server.servlet.context-path}/login/oauth2/code/{registrationId}"
+            scope: openid
+        provider:
+          oidc-idp:
+            issuer-uri: http://127.0.0.1:9300
+
+logging:
+  level:
+    org.springframework: debug
+    org.springframework.security: trace
+    com.github.peacetrue: trace
+
+server:
+  port: 930${serial-number}
+  servlet:
+    # 使用应用名称，防止 cookie 冲突
+    context-path: /${spring.application.name}
+
+---
+#客户端 1
+spring:
+  config:
+    activate:
+      on-profile: client1
+
+serial-number: 1
+
+
+---
+#客户端 2
+spring:
+  config:
+    activate:
+      on-profile: client2
+
+serial-number: 2
+
+---
+#开发环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  host: 127.0.0.1
+

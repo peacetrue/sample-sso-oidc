@@ -10,4 +10,4 @@ v1.0, 2019-08-23: SNAPSHOT
 :testsourcedir: src/test/java
 :source-highlighter: highlightjs
 
-详情参考 https://peacetrue.cn/summarize/peacetrue-template-gradle/index.html[安宁的博客^]。
+详情参考 https://peacetrue.cn/summarize/sample-sso-oidc/index.html[安宁的博客^]。

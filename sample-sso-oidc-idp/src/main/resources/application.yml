@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: oidc-idp
+  security:
+    #配置初始化用户
+    user:
+      name: admin
+      password: 123456
+
+
+logging:
+  level:
+    org.springframework: debug
+    org.springframework.security: trace
+    com.github.peacetrue: trace
+
+server:
+  host: 127.0.0.1
+  port: 9300
+#  servlet:
+#    # 使用应用名称，防止 cookie 冲突
+#    context-path: /${spring.application.name}
+

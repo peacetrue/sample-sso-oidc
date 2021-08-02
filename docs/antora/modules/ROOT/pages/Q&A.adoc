@@ -1,0 +1,13 @@
+= 问答
+
+== 如何查看会话有效时长
+
+断点到以下方法：
+
+.org.apache.catalina.session.ManagerBase
+* public Session findSession(String id)
+* public Session[] findSessions()
+
+== JWT ID_TOKEN 在何处生成
+
+
