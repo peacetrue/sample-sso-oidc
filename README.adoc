@@ -1,4 +1,4 @@
-= gradle 模板项目
+= 基于 OIDC 的单点登录样章
 xiayx <xiayouxue@hotmail.com>
 v1.0, 2019-08-23: SNAPSHOT
 :doctype: docbook
