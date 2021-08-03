@@ -14,7 +14,7 @@ public class SpOidcApplication {
 
     static final String REGISTRATION_ID = "oidc-sp";
 
-    static String getAuthorizationRequestUri() {
+    static String getAuthorizationRequestURI() {
         return String.format("%s/%s", DEFAULT_AUTHORIZATION_REQUEST_BASE_URI, REGISTRATION_ID);
     }
 

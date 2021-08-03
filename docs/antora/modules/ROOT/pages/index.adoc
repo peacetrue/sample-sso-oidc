@@ -1,6 +1,6 @@
 = 简介
 
-本教程详细记录 *如何基于 https://openid.net/connect/[OpenID Connect^] 实现浏览器单点登录*。
+本教程记录 *基于 https://openid.net/connect/[OpenID Connect^] 实现单点登录* 的过程。
 
 == 背景知识
 

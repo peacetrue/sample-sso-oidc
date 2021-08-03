@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 /**
  * @author : xiayx
@@ -21,8 +22,14 @@ public class SpOidcConfiguration {
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
-                        oauth2Login.loginPage(SpOidcApplication.getAuthorizationRequestUri())
+                        oauth2Login.loginPage(SpOidcApplication.getAuthorizationRequestURI())
                 )
+                .logout(oauth2Logout -> {
+                    SimpleUrlLogoutSuccessHandler logoutSuccessHandler = new SimpleUrlLogoutSuccessHandler();
+                    logoutSuccessHandler.setUseReferer(true);
+                    logoutSuccessHandler.setDefaultTargetUrl(SpOidcApplication.getAuthorizationRequestURI());
+                    oauth2Logout.logoutSuccessHandler(logoutSuccessHandler);
+                })
         ;
         return http.build();
     }

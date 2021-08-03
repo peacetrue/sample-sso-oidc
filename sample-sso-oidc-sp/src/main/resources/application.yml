@@ -23,11 +23,11 @@ spring:
             client-name: oidc-sp-${serial-number}
             client-secret: secret${serial-number}
             authorization-grant-type: authorization_code
-            redirect-uri: "http://${server.host}:${server.port}${server.servlet.context-path}/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://${server.host}:${server.port}${server.servlet.context-path:''}/login/oauth2/code/{registrationId}"
             scope: openid
         provider:
           oidc-idp:
-            issuer-uri: http://127.0.0.1:9300
+            issuer-uri: http://127.0.0.1:9300/oidc-idp
 
 logging:
   level:

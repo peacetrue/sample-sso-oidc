@@ -5,9 +5,7 @@
     <title>首页</title>
 </head>
 <body>
-
-<!--<p>当前页面不受保护</p>-->
-
+<h1>不受保护的资源（登录态非登录态都可进入此页面）</h1>
 <fieldset th:if="${isLogined}">
     <legend>已登录：</legend>
     <div>
@@ -15,19 +13,17 @@
         <div th:text="${user}"></div>
     </div>
     <hr/>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">退出</button>
-    </form>
-    <div th:if="${authorizedClient}">
-        <div>已认证的客户端：</div>
-        <div th:text="${authorizedClient}"></div>
+    <div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">退出</button>
+        </form>
     </div>
 </fieldset>
 
 <fieldset th:if="${!isLogined}">
     <legend>未登录：</legend>
     <div><a th:href="@{${authorizationRequestUri}}">OIDC 单点登录</a></div>
-    <div><a th:href="@{/home}">访问受保护的主页</a></div>
+    <div><a th:href="@{/home}">访问受保护的资源（主页）</a></div>
 </fieldset>
 </body>
 </html>

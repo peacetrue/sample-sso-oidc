@@ -5,8 +5,7 @@ dependencies {
     //实现认证服务端功能的类库
     implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.1.2'
     //end::authorization-server[]
-    //操作数据库的类库
-//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-//    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>受保护的资源（登录态才能进入此页面）</h1>
+<div>
+    <div>当前用户：</div>
+    <div th:text="${user}"></div>
+</div>
+<hr/>
+<div>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">退出</button>
+    </form>
+</div>
+</body>
+</html>

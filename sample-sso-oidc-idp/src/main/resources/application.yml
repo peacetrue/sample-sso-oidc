@@ -1,12 +1,13 @@
 spring:
   application:
     name: oidc-idp
+  thymeleaf:
+    cache: false
   security:
     #配置初始化用户
     user:
       name: admin
       password: 123456
-
 
 logging:
   level:
@@ -17,7 +18,9 @@ logging:
 server:
   host: 127.0.0.1
   port: 9300
-#  servlet:
-#    # 使用应用名称，防止 cookie 冲突
-#    context-path: /${spring.application.name}
+  servlet:
+    # 使用应用名称，防止 cookie 冲突
+    context-path: /${spring.application.name}
 
+# 认证客户端 host
+sp.host: ${server.host}
