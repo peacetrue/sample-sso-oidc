@@ -37,7 +37,7 @@ public class IndexController {
         log.info("用户[{}]进入首页", principal.getName());
         model.addAttribute("user", principal);
         model.addAttribute("authorizedClient", objectMapper.writeValueAsString(authorizedClient));
-        return "/index";
+        return "index";
     }
 
 }
