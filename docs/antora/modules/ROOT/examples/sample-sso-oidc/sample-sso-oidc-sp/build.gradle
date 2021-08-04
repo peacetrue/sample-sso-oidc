@@ -1,0 +1,10 @@
+description "服务提供者"
+dependencies {
+    //tag::dependencies[]
+    //oauth2 客户端依赖类库
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    //渲染 html5 页面的类库
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //end::dependencies[]
+}
+

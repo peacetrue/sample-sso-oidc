@@ -1,8 +1,8 @@
 = 设计
 
-本文记录单点登录的实现思路。
+本文记录 OIDC 单点登录的实现思路。
 
-== 确定项目名
+== 确定项目名称
 
 sample-sso-oidc。
 
@@ -12,31 +12,31 @@ sample-sso-oidc。
 
 [cols=6,width="100%",options="header"]
 |===
-|应用 |端口 |角色 |实现模块 |主页地址  |备注
+|应用 |端口 |角色 |实现模块 |首页地址  |备注
 
 |oidc-idp
 |9301
 |认证服务端
 |sample-sso-oidc-idp
 |http://127.0.0.1:9300/oidc-idp
-|登录账号：admin/123456
+|登录账号：admin / 123456
 
 |oidc-sp-1
 |9302
 |认证客户端
 |sample-sso-oidc-sp
 |http://127.0.0.1:9301/oidc-sp-1
-|客户端凭据：oidc-sp-1/secret1
+|
 
 |oidc-sp-2
 |9303
 |认证客户端
 |sample-sso-oidc-sp
 |http://127.0.0.1:9302/oidc-sp-2
-|客户端凭据：oidc-sp-2/secret2
+|
 |===
 
-NOTE: 演示地址不能使用 localhost， https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01#section-9.7.1[OAuth2 规范^] 不推荐。
+NOTE: 首页地址不能使用 localhost， https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01#section-9.7.1[OAuth2 规范^] 不推荐。
 
 其中涉及 2 个小问题：
 
@@ -95,13 +95,13 @@ include::example$openid-configuration.json[]
 
 == 如何实现 IDP
 
-使用 https://github.com/spring-projects-experimental/spring-dependencies[spring-dependencies^] 组件。
+使用 https://github.com/spring-projects-experimental/spring-authorization-server[Spring Authorization Server^] 组件。
 
 == 如何实现 SP
 
-使用 https://docs.spring.io/spring-security/site/docs/5.4.7/reference/html5/#oauth2client[spring-boot-starter-oauth2-client^] 组件footnote:[若链接因版本升级而失效，可查看 https://spring.io/projects/spring-security#learn[spring-security^\]]。
+使用 https://docs.spring.io/spring-security/site/docs/5.4.7/reference/html5/#oauth2client[Spring Security OAuth 2.0 Client^] 组件footnote:[若链接因版本升级而失效，可查看 https://spring.io/projects/spring-security#learn[spring-security^]]。
 
 == 选择构建工具
 
-Gradle-7.0。
+https://gradle.org/[Gradle 7.0^]。
 

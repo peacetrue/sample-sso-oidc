@@ -1,5 +1,5 @@
 name: sample-sso-oidc
-title: 基于 OpenID Connect 实现单点登录
+title: OIDC 单点登录
 version: master
 asciidoc:
   attributes:

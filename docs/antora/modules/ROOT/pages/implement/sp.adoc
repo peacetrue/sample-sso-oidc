@@ -6,11 +6,11 @@
 :path-sp-main-package: {path-sp-main}/java{path-sp-package}
 :path-sp-test-package: {path-sp-test}/java{path-sp-package}
 
-本文记录 SP 的实现过程。客户端的依赖类库相比服务端的依赖类库要完善很多，所以配置起来比较方便。
+本文记录 SP 的实现过程。客户端的依赖类库相比服务端要完善很多，配置起来更方便。
 
 == 确定模块名称
 
-sample-sso-oidc-sp。
+sample-sso-oidc-sp 。
 
 == 创建模块
 

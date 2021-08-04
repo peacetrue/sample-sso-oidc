@@ -95,9 +95,8 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=jwt;ClassStart;C
 include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=providerSettings;ClassStart;ClassEnd]
 ----
 
-以下是项目启动后，返回的相关信息：
+以下是项目启动后，上述配置在 http://127.0.0.1:9300/oidc-idp/.well-known/openid-configuration[.well-known/openid-configuration^] 端点返回的相关信息：
 
-//http://127.0.0.1:9300/oidc-idp/.well-known/openid-configuration
 ..well-known/openid-configuration
 [{source},json]
 ----

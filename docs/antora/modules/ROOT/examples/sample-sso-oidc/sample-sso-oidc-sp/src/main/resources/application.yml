@@ -1,12 +1,12 @@
 # 预定义变量
-#客户端对应的序号，客户端1序号为 1、客户端2序号为 2
+#客户端对应的序号，客户端 1 序号为 1、客户端 2 序号为 2
 serial-number:
 #本服务 host
 server.host:
 #idp 和 sp 默认在同一台机器上
 idp.host: ${server.host}
 
-#默认使用客户端1、开发环境
+#默认使用客户端 1，开发环境
 spring.profiles.include: client1,dev
 
 ---
