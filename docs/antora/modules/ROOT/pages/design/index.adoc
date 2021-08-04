@@ -54,8 +54,8 @@ NOTE: 首页地址不能使用 localhost， https://tools.ietf.org/html/draft-ie
 ....
 autonumber
 skinparam responseMessageBelowArrow true
-用户 -> 浏览器: 访问 SP 主页
-浏览器 -> SP: 请求 SP 主页
+用户 -> 浏览器: 访问 SP 首页
+浏览器 -> SP: 请求 SP 首页
 SP -> SP: 检查当前用户状态
     alt SP 未登录
         浏览器 <- SP: 重定向到 IDP
@@ -72,8 +72,8 @@ SP -> SP: 检查当前用户状态
         浏览器 -> SP: 请求执行登录
         SP -> SP: 登录成功
     end
-浏览器 <- SP: 重定向到 SP 主页
-用户 <- 浏览器: 呈现 SP 主页
+浏览器 <- SP: 重定向到 SP 首页
+用户 <- 浏览器: 呈现 SP 首页
 ....
 
 TIP: 关于同步保持 IDP 和 SP 会话状态的讨论可以查阅 xref:design/session.adoc[]
