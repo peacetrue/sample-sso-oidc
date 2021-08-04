@@ -6,7 +6,7 @@ asciidoc:
     numbered: '@'
     allow-uri-read: true
 #    safe: unsafe
-    path: /Users/xiayx/Documents/Projects/sample-sso-oidc
+    path: '/Users/xiayx/Documents/Projects/sample-sso-oidc@'
     source: 'source%nowrap@'
 start_page: ROOT:index.adoc
 nav:

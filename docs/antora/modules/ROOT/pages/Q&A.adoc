@@ -8,6 +8,4 @@
 * public Session findSession(String id)
 * public Session[] findSessions()
 
-== JWT ID_TOKEN 在何处生成
-
 
