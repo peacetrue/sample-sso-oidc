@@ -10,8 +10,8 @@ echo "部署$module_name($port $env)应用"
 
 echo "当前所在目录：$(pwd)"
 
-./gradlew clean
-./gradlew bootJar
+../gradlew "clean"
+../gradlew "bootJar"
 
 scp "build/libs/$module_name-1.0.0-SNAPSHOT.jar" "$ali_ssh:/root/peacetrue/$module_name"
 
