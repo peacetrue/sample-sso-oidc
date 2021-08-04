@@ -1,11 +1,11 @@
-description "认证中心"
+description "认证服务端"
 
 dependencies {
-    //tag::authorization-server[]
-    //实现认证服务端功能的类库
-    implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.1.2'
-    //end::authorization-server[]
+    //tag::dependencies[]
+    //实现服务端认证功能的类库
+    implementation 'org.springframework.security.experimental:spring-security-oauth2-dependencies:0.1.2'
+    //渲染 html5 页面的类库
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    //end::dependencies[]
 }
 

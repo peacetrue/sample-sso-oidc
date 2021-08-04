@@ -9,6 +9,7 @@ import static org.springframework.security.oauth2.client.web.OAuth2Authorization
  * @author : xiayx
  * @since : 2021-07-21 07:21
  **/
+//tag::class[]
 @SpringBootApplication
 public class SpOidcApplication {
 
@@ -22,3 +23,4 @@ public class SpOidcApplication {
         SpringApplication.run(SpOidcApplication.class, args);
     }
 }
+//end::class[]

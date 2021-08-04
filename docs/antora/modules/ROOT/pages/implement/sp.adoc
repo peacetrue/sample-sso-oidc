@@ -1,0 +1,60 @@
+= SP 实现
+:path-sp: {path}/sample-sso-oidc-sp
+:path-sp-main: {path-sp}/src/main
+:path-sp-test: {path-sp}/src/test
+:path-sp-package: /com/github/peacetrue/sample/oss/oidc
+:path-sp-main-package: {path-sp-main}/java{path-sp-package}
+:path-sp-test-package: {path-sp-test}/java{path-sp-package}
+
+本文记录 SP 的实现过程。客户端的依赖类库相比服务端的依赖类库要完善很多，所以配置起来比较方便。
+
+== 确定模块名称
+
+sample-sso-oidc-sp。
+
+== 创建模块
+
+https://github.com/peacetrue/sample-sso-oidc/tree/master/sample-sso-oidc-sp[sample-sso-oidc-sp^] 。
+
+== 配置模块依赖
+
+.build.gradle
+[{source},groovy]
+----
+include::{path}/build.gradle[tags=spring]
+include::{path-sp}/build.gradle[tags=dependencies]
+----
+
+== 创建启动类
+
+.SpOidcApplication
+[{source},java]
+----
+include::{path-sp-main-package}/SpOidcApplication.java[tags=class]
+----
+
+== 创建配置文件
+
+.application.yml
+[{source},yml]
+----
+include::{path-sp-main}/resources/application.yml[]
+----
+
+== 配置模块功能
+
+=== 创建配置类
+
+.SpOidcConfiguration
+[{source},java]
+----
+include::{path-sp-main-package}/SpOidcConfiguration.java[tags=ClassStart;ClassEnd]
+----
+
+=== 配置安全过滤器链
+
+.SpOidcConfiguration
+[{source},java]
+----
+include::{path-sp-main-package}/SpOidcConfiguration.java[tags=SecurityFilterChain;ClassStart;ClassEnd]
+----

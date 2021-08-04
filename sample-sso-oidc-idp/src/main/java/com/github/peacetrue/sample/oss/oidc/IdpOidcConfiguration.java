@@ -47,13 +47,13 @@ import static org.springframework.security.config.annotation.web.configuration.O
  */
 @Configuration(proxyBeanMethods = false)
 //tag::import[]
-//类库提供的配置无法直接使用
+//类库功能尚不完善，提供的配置无法直接使用
 //@Import(OAuth2AuthorizationServerConfiguration.class) //<.>
 //end::import[]
 
-//tag::class-start[]
+//tag::ClassStart[]
 public class IdpOidcConfiguration {
-    //end::class-start[]
+    //end::ClassStart[]
 
     //tag::SecurityFilterChain[]
 
@@ -140,7 +140,12 @@ public class IdpOidcConfiguration {
 
     //tag::jwt[]
 
-    /* 加密解密 AccessToken 和 IdToken 需要 */
+    /* 用于加密解密 AccessToken 和 IdToken */
+
+    @Bean
+    public static JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
@@ -168,18 +173,13 @@ public class IdpOidcConfiguration {
             throw new IllegalStateException(ex);
         }
     }
-
-    @Bean
-    public static JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-    }
-
     //end::jwt[]
 
     //tag::providerSettings[]
 
     @Bean
     public ProviderSettings providerSettings(ServerProperties properties, @Value("${server.host}") String host) {
+        //只配置了 issuer 地址，其他端点会使用默认值
         return new ProviderSettings().issuer(MessageFormat.format("http://{0}:{1}{2}",
                 host, String.valueOf(properties.getPort()),
                 Objects.toString(properties.getServlet().getContextPath(), "")
@@ -188,7 +188,7 @@ public class IdpOidcConfiguration {
     //end::providerSettings[]
 
 
-    //tag::class-end[]
+    //tag::ClassEnd[]
 
 }
-//end::class-end[]
+//end::ClassEnd[]

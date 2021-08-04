@@ -2,28 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>主页</title>
+    <style>
+        * {
+            word-break: break-all;
+        }
+    </style>
 </head>
 <body>
-<h1>不受保护的资源（登录态非登录态都可进入此页面）</h1>
-<fieldset th:if="${isLogined}">
-    <legend>已登录：</legend>
-    <div>
-        <div>当前用户：</div>
-        <div th:text="${user}"></div>
-    </div>
-    <hr/>
-    <div>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">退出</button>
-        </form>
-    </div>
+<h1>受保护的资源（登录态才能进入此页面）</h1>
+<fieldset>
+    <legend>当前用户</legend>
+    <div th:text="${user}"></div>
 </fieldset>
-
-<fieldset th:if="${!isLogined}">
-    <legend>未登录：</legend>
-    <div><a th:href="@{${authorizationRequestUri}}">OIDC 单点登录</a></div>
-    <div><a th:href="@{/home}">访问受保护的资源（主页）</a></div>
+<fieldset>
+    <legend>已认证的客户端</legend>
+    <div th:text="${authorizedClient}"></div>
 </fieldset>
+<hr/>
+<div>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">退出</button>
+    </form>
+</div>
 </body>
 </html>

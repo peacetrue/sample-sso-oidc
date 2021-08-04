@@ -1,3 +1,6 @@
 * xref:index.adoc[]
 * xref:design/index.adoc[]
-* xref:idp.adoc[]
+* xref:implement/idp.adoc[]
+* xref:implement/sp.adoc[]
+* xref:demo.adoc[]
+* xref:version.adoc[]

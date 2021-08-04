@@ -1,4 +1,11 @@
-= IDP
+= IDP 实现
+
+:path-idp: {path}/sample-sso-oidc-idp
+:path-idp-main: {path-idp}/src/main
+:path-idp-test: {path-idp}/src/test
+:path-idp-package: /com/github/peacetrue/sample/oss/oidc
+:path-idp-main-package: {path-idp-main}/java{path-idp-package}
+:path-idp-test-package: {path-idp-test}/java{path-idp-package}
 
 本文记录 IDP 的实现过程。
 
@@ -16,7 +23,7 @@ https://github.com/peacetrue/sample-sso-oidc/tree/master/sample-sso-oidc-idp[sam
 [{source},groovy]
 ----
 include::{path}/build.gradle[tags=spring]
-include::{path-idp}/build.gradle[tags=authorization-server]
+include::{path-idp}/build.gradle[tags=dependencies]
 ----
 
 == 创建启动类
@@ -42,7 +49,7 @@ include::{path-idp-main}/resources/application.yml[]
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=ClassStart;ClassEnd]
 ----
 
 === [.line-through]#引入配置#
@@ -50,7 +57,7 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;clas
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=import;class-start;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=import;ClassStart;ClassEnd]
 ----
 <.> 下面会重新声明相关配置
 
@@ -59,7 +66,7 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=import;class-sta
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=SecurityFilterChain;class-start;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=SecurityFilterChain;ClassStart;ClassEnd]
 ----
 
 === 配置客户端
@@ -69,7 +76,7 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=SecurityFilterCh
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;registeredClient;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=ClassStart;registeredClient;ClassEnd]
 ----
 
 === 配置 JWT
@@ -77,7 +84,7 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=class-start;regi
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=jwt;class-start;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=jwt;ClassStart;ClassEnd]
 ----
 
 === 配置端点信息
@@ -85,10 +92,10 @@ include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=jwt;class-start;
 .IdpOidcConfiguration
 [{source},java]
 ----
-include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=providerSettings;class-start;class-end]
+include::{path-idp-main-package}/IdpOidcConfiguration.java[tags=providerSettings;ClassStart;ClassEnd]
 ----
 
-上面只配置了 issuer 地址，其他端点地址会使用默认值：
+以下是项目启动后，返回的相关信息：
 
 //http://127.0.0.1:9300/oidc-idp/.well-known/openid-configuration
 ..well-known/openid-configuration

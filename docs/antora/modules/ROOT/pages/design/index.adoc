@@ -95,7 +95,7 @@ include::example$openid-configuration.json[]
 
 == 如何实现 IDP
 
-使用 https://github.com/spring-projects-experimental/spring-authorization-server[spring-authorization-server^] 组件。
+使用 https://github.com/spring-projects-experimental/spring-dependencies[spring-dependencies^] 组件。
 
 == 如何实现 SP
 

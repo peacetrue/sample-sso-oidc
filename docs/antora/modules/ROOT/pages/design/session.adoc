@@ -1,6 +1,6 @@
 = 会话情况
 
-用户从 SP 登录后，IDP 会有一个会话，SP 会有一个会话，SP 还具有一个访问令牌，那么这三者之间有什么关联呢？本文会结合 https://github.com/spring-projects-experimental/spring-authorization-server[spring-authorization-server^] 中样章的运行效果进行讨论。
+用户从 SP 登录后，IDP 会有一个会话，SP 会有一个会话，SP 还具有一个访问令牌，那么这三者之间有什么关联呢？本文会结合 https://github.com/spring-projects-experimental/spring-dependencies[spring-dependencies^] 中样章的运行效果进行讨论。
 
 随着授权码认证流程的展开，会浮现出如下几个疑问：
 
