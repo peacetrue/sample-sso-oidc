@@ -7,5 +7,6 @@ dependencies {
     //渲染 html5 页面的类库
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     //end::dependencies[]
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 

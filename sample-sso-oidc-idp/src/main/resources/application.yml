@@ -1,3 +1,4 @@
+#公共配置
 spring:
   application:
     name: oidc-idp
@@ -9,18 +10,83 @@ spring:
       name: admin
       password: 123456
 
-logging:
-  level:
-    org.springframework: debug
-    org.springframework.security: trace
-    com.github.peacetrue: trace
 
 server:
-  host: 127.0.0.1
   port: 9300
   servlet:
     # 使用应用名称，防止 cookie 冲突
     context-path: /${spring.application.name}
 
+peacetrue:
+  idp-oidc:
+    idp:
+      protocol:
+      host:
+    sp:
+      protocol: ${peacetrue.idp-oidc.idp.protocol}
+      host: ${peacetrue.idp-oidc.idp.host}
+#      port:
+    sps:
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port:
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port:
+
+---
+#开发环境
+spring.config.activate.on-profile: default,dev
+
 # 认证客户端 host
-sp.host: ${server.host}
+peacetrue:
+  idp-oidc:
+    idp:
+      protocol: http
+      host: 127.0.0.1
+      port: ${server.port}
+    sps:
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port: 9301
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port: 9302
+
+logging:
+  level:
+    root: info
+    org.springframework: debug
+    org.springframework.security: trace
+    com.github.peacetrue: trace
+
+---
+#生产环境
+spring.config.activate.on-profile: prod
+
+peacetrue:
+  idp-oidc:
+    idp:
+      protocol: https
+      host: peacetrue.cn
+      port: 443
+    sps:
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port: 443
+      - protocol: ${peacetrue.idp-oidc.sp.protocol}
+        host: ${peacetrue.idp-oidc.sp.host}
+        port: 443
+
+logging:
+  level:
+    root: info
+    com.github.peacetrue: trace
+  file:
+    name: root.log
+#
+#server:
+#  tomcat:
+#    basedir: tomcat
+#    accesslog:
+#      enabled: true

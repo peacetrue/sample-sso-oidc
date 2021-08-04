@@ -1,5 +1,6 @@
 * xref:index.adoc[]
 * xref:design/index.adoc[]
+* xref:design/env.adoc[]
 * xref:implement/idp.adoc[]
 * xref:implement/sp.adoc[]
 * xref:demo.adoc[]

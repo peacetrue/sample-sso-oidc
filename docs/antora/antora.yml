@@ -8,6 +8,11 @@ asciidoc:
 #    safe: unsafe
     path: '/Users/xiayx/Documents/Projects/sample-sso-oidc@'
     source: 'source%nowrap@'
+    dev_host: 127.0.0.1
+    dev_url: http://127.0.0.1
+    prod_host: peacetrue.cn
+    prod_url: https://peacetrue.cn
+
 start_page: ROOT:index.adoc
 nav:
   - modules/ROOT/nav.adoc

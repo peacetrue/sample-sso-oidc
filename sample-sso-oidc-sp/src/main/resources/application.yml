@@ -1,16 +1,24 @@
-# 预定义变量
+# 预定义变量（不设值）
 #客户端对应的序号，客户端1序号为 1、客户端2序号为 2
 serial-number:
-#本服务 host
-server.host:
-#idp 和 sp 默认在同一台机器上
-idp.host: ${server.host}
-
-#默认使用客户端1、开发环境
-spring.profiles.include: client1,dev
+#本服务主机信息
+sp:
+  protocol:
+  host:
+  port:
+#idp服务主机信息
+idp:
+  protocol:
+  host:
+  port:
 
 ---
 #公共配置
+#idp 和 sp 默认在同一台机器上
+idp:
+  protocol: ${sp.protocol}
+  host: ${sp.host}
+
 spring:
   application:
     name: oidc-sp-${serial-number}
@@ -22,7 +30,7 @@ spring:
         #认证服务端
         provider:
           oidc-idp:
-            issuer-uri: http://127.0.0.1:9300/oidc-idp
+            issuer-uri: ${idp.protocol}://${idp.host}:${idp.port}/oidc-idp
         #认证客户端
         registration:
           oidc-sp:
@@ -31,14 +39,9 @@ spring:
             client-name: oidc-sp-${serial-number}
             client-secret: secret${serial-number}
             authorization-grant-type: authorization_code
-            redirect-uri: "http://${server.host}:${server.port}${server.servlet.context-path:''}/login/oauth2/code/{registrationId}"
+            redirect-uri: "${sp.protocol}://${sp.host}:${sp.port}${server.servlet.context-path}/login/oauth2/code/{registrationId}"
             scope: openid
 
-logging:
-  level:
-    com.github.peacetrue: trace
-    org.springframework: debug
-    org.springframework.security: trace
 
 server:
   port: 930${serial-number}
@@ -48,7 +51,7 @@ server:
 
 ---
 #客户端 1
-spring.config.activate.on-profile: client1
+spring.config.activate.on-profile: default,client1
 
 serial-number: 1
 
@@ -60,8 +63,45 @@ serial-number: 2
 
 ---
 #开发环境
-spring.config.activate.on-profile: dev
+spring.config.activate.on-profile: default,dev
+
+logging:
+  level:
+    root: info
+    com.github.peacetrue: trace
+    org.springframework: debug
+    org.springframework.security: trace
 
 # 不要使用 localhost，OAuth2 规范要求
-server.host: 127.0.0.1
+sp:
+  protocol: http
+  host: 127.0.0.1
+  port: ${server.port}
 
+idp:
+  port: 9300
+
+---
+#生产环境
+spring.config.activate.on-profile: prod
+
+sp:
+  protocol: https
+  host: peacetrue.cn
+  port: 443
+
+idp:
+  port: ${sp.port}
+
+logging:
+  level:
+    root: info
+    com.github.peacetrue: trace
+  file:
+    name: root.log
+
+#server:
+#  tomcat:
+#    basedir: tomcat
+#    accesslog:
+#      enabled: true

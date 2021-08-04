@@ -8,7 +8,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -33,11 +33,11 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.github.peacetrue.sample.oss.oidc.IdpOidcApplication.REGISTRATION_ID;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration.applyDefaultSecurity;
 
@@ -50,10 +50,16 @@ import static org.springframework.security.config.annotation.web.configuration.O
 //类库功能尚不完善，提供的配置无法直接使用
 //@Import(OAuth2AuthorizationServerConfiguration.class) //<.>
 //end::import[]
-
+@EnableConfigurationProperties(IdpOidcProperties.class)
 //tag::ClassStart[]
 public class IdpOidcConfiguration {
     //end::ClassStart[]
+
+    private IdpOidcProperties properties;
+
+    public IdpOidcConfiguration(IdpOidcProperties properties) {
+        this.properties = properties;
+    }
 
     //tag::SecurityFilterChain[]
 
@@ -103,24 +109,21 @@ public class IdpOidcConfiguration {
 
     /*基于内存的配置*/
 
+
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        return new InMemoryRegisteredClientRepository(getRegisteredClients());
+        return new InMemoryRegisteredClientRepository(getRegisteredClients(properties.getSps()));
     }
 
-    private static List<RegisteredClient> getRegisteredClients() {
-        return IntStream.rangeClosed(1, 2)
-                .mapToObj(IdpOidcConfiguration::getRegisteredClient)
+    private static List<RegisteredClient> getRegisteredClients(List<IdpOidcProperties.Domain> clients) {
+        return IntStream.range(0, clients.size())
+                .mapToObj(serialNumber -> getRegisteredClient(serialNumber + 1, clients.get(serialNumber)))
                 .collect(Collectors.toList());
     }
 
-    private static String getClientId(int serialNumber) {
-        return "oidc-sp-" + serialNumber;
-    }
-
-    private static RegisteredClient getRegisteredClient(Integer serialNumber) {
+    private static RegisteredClient getRegisteredClient(Integer serialNumber, IdpOidcProperties.Domain domain) {
         //see OAuth2LoginAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI
-        String clientAuthorizeEndpoint = "http://127.0.0.1:930{0}/{1}/login/oauth2/code/{2}";
+        String clientAuthorizeEndpoint = "%s://%s:%s/%s/login/oauth2/code/%s";
         String clientId = getClientId(serialNumber);
         return RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientId)
@@ -131,10 +134,15 @@ public class IdpOidcConfiguration {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri(MessageFormat.format(clientAuthorizeEndpoint, serialNumber, clientId, "oidc-sp"))
+                .redirectUri(String.format(clientAuthorizeEndpoint,
+                        domain.getProtocol(), domain.getHost(), domain.getPort(), clientId, REGISTRATION_ID))
                 .scope(OidcScopes.OPENID)
                 .clientSettings(clientSettings -> clientSettings.requireUserConsent(false))
                 .build();
+    }
+
+    private static String getClientId(int serialNumber) {
+        return REGISTRATION_ID + "-" + serialNumber;
     }
     //end::registeredClient[]
 
@@ -178,11 +186,11 @@ public class IdpOidcConfiguration {
     //tag::providerSettings[]
 
     @Bean
-    public ProviderSettings providerSettings(ServerProperties properties, @Value("${server.host}") String host) {
+    public ProviderSettings providerSettings(@Value("${server.servlet.context-path}") String contextPath) {
+        IdpOidcProperties.Domain idp = properties.getIdp();
         //只配置了 issuer 地址，其他端点会使用默认值
-        return new ProviderSettings().issuer(MessageFormat.format("http://{0}:{1}{2}",
-                host, String.valueOf(properties.getPort()),
-                Objects.toString(properties.getServlet().getContextPath(), "")
+        return new ProviderSettings().issuer(String.format("%s://%s:%s%s",
+                idp.getProtocol(), idp.getHost(), idp.getPort(), contextPath
         ));
     }
     //end::providerSettings[]
