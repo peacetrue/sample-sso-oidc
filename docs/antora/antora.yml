@@ -1,6 +1,6 @@
 name: sample-sso-oidc
 title: OIDC 单点登录
-version: 1.1.0(_)env
+version: master
 asciidoc:
   attributes:
     numbered: '@'
