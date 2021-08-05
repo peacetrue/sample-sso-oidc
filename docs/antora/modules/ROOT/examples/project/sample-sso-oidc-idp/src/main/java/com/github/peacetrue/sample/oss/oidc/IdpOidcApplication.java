@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //tag::class[]
 @SpringBootApplication
 public class IdpOidcApplication {
+
+    static final String REGISTRATION_ID = "oidc-sp";
+
     public static void main(String[] args) {
         SpringApplication.run(IdpOidcApplication.class, args);
     }

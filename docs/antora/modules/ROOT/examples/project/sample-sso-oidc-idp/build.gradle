@@ -2,10 +2,11 @@ description "认证服务端"
 
 dependencies {
     //tag::dependencies[]
-    //实现服务端认证功能的类库
-    implementation 'org.springframework.security.experimental:spring-security-oauth2-dependencies:0.1.2'
+    //实现服务端认证功能的类库，目前版本较低
+    implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.1.2'
     //渲染 html5 页面的类库
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     //end::dependencies[]
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
