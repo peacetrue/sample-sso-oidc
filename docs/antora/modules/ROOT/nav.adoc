@@ -1,7 +1,10 @@
 * xref:index.adoc[]
-* xref:design/index.adoc[]
-* xref:design/env.adoc[]
-* xref:implement/idp.adoc[]
-* xref:implement/sp.adoc[]
+* 设计
+** xref:design/index.adoc[]
+** xref:design/env.adoc[]
+** xref:design/storage.adoc[]
+* 实现
+** xref:implement/idp.adoc[]
+** xref:implement/sp.adoc[]
 * xref:demo.adoc[]
 * xref:version.adoc[]

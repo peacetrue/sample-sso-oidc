@@ -113,7 +113,9 @@ public class IdpOidcConfiguration {
 
     //tag::registeredClient[]
 
-    /** 基于数据库的配置 */
+    /**
+     * 基于数据库的配置
+     */
     @Profile("db")
     @Configuration(proxyBeanMethods = false)
     public static class DBConfiguration {
@@ -179,9 +181,11 @@ public class IdpOidcConfiguration {
 
         }
 
-        /** 使用内存数据库 */
+        /**
+         * 使用 H2 内存数据库
+         */
+        @Profile("h2")
         @Configuration(proxyBeanMethods = false)
-        @Profile("db&memory")
         public static class MemoryConfiguration {
             @Bean
             public EmbeddedDatabase embeddedDatabase() {
@@ -202,8 +206,10 @@ public class IdpOidcConfiguration {
         }
     }
 
-    /** 基于内存的配置 */
-    @Profile({"memory&!db", "default"})
+    /**
+     * 基于内存的配置
+     */
+    @Profile("memory")
     @Configuration(proxyBeanMethods = false)
     public static class MemoryConfiguration {
 

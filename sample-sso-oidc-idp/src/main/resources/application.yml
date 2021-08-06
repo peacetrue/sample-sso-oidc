@@ -2,14 +2,6 @@
 spring:
   application:
     name: oidc-idp
-  thymeleaf:
-    cache: false
-  security:
-    #配置初始化用户
-    user:
-      name: admin
-      password: 123456
-      roles: USER
 
 server:
   port: 9300
@@ -34,9 +26,29 @@ peacetrue:
         host: ${peacetrue.idp-oidc.sp.host}
         port:
 
+# 默认使用内存模式
+spring.profiles.group.default: devx,memory
+# 开发环境使用 H2 数据库
+spring.profiles.group.dev: devx,h2
+# 生产环境使用 MySQL 数据库
+spring.profiles.group.prod: mysql
+
+spring.profiles.group.h2: db
+spring.profiles.group.mysql: db
+
 ---
 # 开发环境
-spring.config.activate.on-profile: default,dev
+spring.config.activate.on-profile: devx
+
+spring:
+  thymeleaf:
+    cache: false
+  security:
+    #配置初始化用户
+    user:
+      name: admin
+      password: 123456
+      roles: USER
 
 # 认证客户端 host
 peacetrue:
@@ -56,13 +68,17 @@ peacetrue:
 logging:
   level:
     root: info
-    org.springframework: trace
+    org.springframework: info
     org.springframework.security: trace
     com.github.peacetrue: trace
 
 ---
 # 生产环境
 spring.config.activate.on-profile: prod
+
+spring:
+  thymeleaf:
+    cache: true
 
 peacetrue:
   idp-oidc:
@@ -92,8 +108,15 @@ logging:
 #      enabled: true
 
 ---
-# 内存数据库配置
-spring.config.activate.on-profile: db&memory
+# 内存配置
+spring.config.activate.on-profile: memory
+spring:
+  flyway:
+    enabled: false
+
+---
+# H2 数据库配置
+spring.config.activate.on-profile: h2
 
 # 访问地址（无需认证）：http://127.0.0.1:9300/oidc-idp/h2-console
 # JDBC URL：jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
@@ -108,8 +131,8 @@ spring:
 #        web-admin-password: 1qw2!QW@
 
 ---
-# mysql数据库配置
-spring.config.activate.on-profile: db&!memory
+# MySQL数据库配置
+spring.config.activate.on-profile: mysql
 
 spring:
   datasource:
