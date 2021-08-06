@@ -4,6 +4,12 @@ dependencies {
     //tag::dependencies[]
     //实现服务端认证功能的类库，目前版本较低
     implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.1.2'
+    //必须手动设置版本，默认版本过低，不存在 ClientAuthenticationMethod.CLIENT_SECRET_BASIC
+    implementation 'org.springframework.security:spring-security-oauth2-core:5.5.1'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation "org.flywaydb:flyway-core"
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
     //渲染 html5 页面的类库
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     //end::dependencies[]

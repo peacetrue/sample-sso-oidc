@@ -1,0 +1,69 @@
+= 数据存储
+
+本文介绍数据存储的实现思路，所属版本 xref:version.adoc#_1_2_0[1.2.0]。
+
+IDP 中需要存储的数据包括：
+
+. 用户（admin / 123456）
+. 用户的权限（admin / ROLE_USER）
+. 客户端（oidc-sp-1、oidc-sp-2）
+. 授权信息（授权码/访问令牌/刷新令牌）
+. 授权同意信息（用户确认同意授权）
+
+之前会从配置文件中读取用户和客户端数据并存储在内存中；现在这些数据从 SQL 脚本中读取并存储在数据库中。数据的初始化使用 https://flywaydb.org/[flyway^] 实现。
+
+== 表结构
+
+以上数据的表结构都是从相关类库中拷出，如非必要不做修改：
+
+|===
+|表名 |所在位置(当前项目中) |来源类库 |来源路径
+
+|用户/用户的权限
+|V1_0_0__users.sql
+|spring-security-core-5.4.6.jar
+|org/springframework/security/core/userdetails/jdbc/users.ddl
+
+|客户端
+|V1_0_3__oauth2-registered-client-schema.sql
+|spring-security-oauth2-authorization-server-0.1.2.jar
+|org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql
+
+|授权信息
+|V1_0_1__oauth2-authorization-schema.sql
+|spring-security-oauth2-authorization-server-0.1.2.jar
+|org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql
+
+|授权同意信息
+|V1_0_2__oauth2-authorization-consent-schema.sql
+|spring-security-oauth2-authorization-server-0.1.2.jar
+|org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql
+|===
+
+== 环境变量
+
+数据存储涉及如下环境变量：
+
+. memory：内存
+. db：数据库
+
+可涵盖三种使用场景：
+
+|===
+|场景名称 |激活配置 |场景描述 |优缺点
+
+|体验
+|dev, memory footnote:[置空使用默认的 default 也可]
+|快速启动项目体验功能时使用
+|默认配置，够快够省事；缺点是不支持查看存储的数据
+
+|探索
+|dev, db, memory
+|数据会存储到 H2 数据库中，快速启动项目体验功能，同时还能查看相关数据
+|只需要激活环境变量，比较快和省事，可以通过 http://127.0.0.1:9300/oidc-idp/h2-console[h2-console^] 查看数据
+
+|正式
+|dev, db
+|数据会存储到 MySQL 数据库中，持续性功能开发中使用
+|需要提供可用的 MySQL 数据库
+|===
