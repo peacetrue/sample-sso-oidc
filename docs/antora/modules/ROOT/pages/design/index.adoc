@@ -1,4 +1,4 @@
-= 设计
+= 概述
 
 本文记录 OIDC 单点登录的实现思路。
 
@@ -14,21 +14,21 @@ sample-sso-oidc。
 |===
 |应用 |端口 |角色 |实现模块 |首页地址  |备注
 
-|oidc-idp
+|IDP
 |9301
 |认证服务端
 |sample-sso-oidc-idp
 |http://127.0.0.1:9300/oidc-idp
 |登录账号：admin / 123456
 
-|oidc-sp-1
+|SP1
 |9302
 |认证客户端
 |sample-sso-oidc-sp
 |http://127.0.0.1:9301/oidc-sp-1
 |
 
-|oidc-sp-2
+|SP2
 |9303
 |认证客户端
 |sample-sso-oidc-sp

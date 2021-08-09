@@ -1,3 +1,13 @@
+# 默认使用内存模式
+spring.profiles.group.default: devx,memory
+# 开发环境使用 H2 数据库
+spring.profiles.group.dev: devx,h2
+# 生产环境使用 MySQL 数据库
+spring.profiles.group.prod: mysql
+
+spring.profiles.group.h2: db
+spring.profiles.group.mysql: db
+
 # 公共配置
 spring:
   application:
@@ -25,16 +35,6 @@ peacetrue:
       - protocol: ${peacetrue.idp-oidc.sp.protocol}
         host: ${peacetrue.idp-oidc.sp.host}
         port:
-
-# 默认使用内存模式
-spring.profiles.group.default: devx,memory
-# 开发环境使用 H2 数据库
-spring.profiles.group.dev: devx,h2
-# 生产环境使用 MySQL 数据库
-spring.profiles.group.prod: mysql
-
-spring.profiles.group.h2: db
-spring.profiles.group.mysql: db
 
 ---
 # 开发环境
